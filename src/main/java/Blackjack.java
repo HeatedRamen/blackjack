@@ -5,6 +5,29 @@ public class Blackjack {
 
     static Scanner input = GamblingApp.input;
     private ArrayList<Player> players = new ArrayList<>();
+    private Player dealer = new Player("Dealer");
+    private Deck deck = new Deck(6);
+
+
+    public void runBlackjack(){
+
+        boolean isRunning = true;
+
+        deck.shuffle();
+
+        getPlayers();
+
+        while (isRunning) {
+            dealHands();
+
+            for (Player player : players) {
+                player.displayHand();
+            }
+            dealer.displayHand();
+            checkWinner();
+            promptKeepPlaying();
+        }
+    }
 
     public void getPlayers() {
 
@@ -37,22 +60,55 @@ public class Blackjack {
             players.add(new Player(player.trim()));
         }
     }
-    public void dealHands(Deck deck) {
+    public void dealHands() {
 
         for (int i = 0; i < 2; i++) {
             for (Player player : players) {
                 player.receiveCard(deck.deal());
             }
+                dealer.receiveCard(deck.deal());
         }
     }
-    public void runBlackjack(){
 
-        Deck deck = new Deck(6);
-        getPlayers();
-        dealHands(deck);
-
+    public void checkWinner(){
         for (Player player : players){
-            player.displayHand();
+            if (player.getHand().getCardValue() > dealer.getHand().getCardValue()){
+                System.out.println("Congrats " + player.getName() + "! You won!");
+            }
         }
+    }
+
+    public void promptKeepPlaying(){
+        System.out.println("Do you want to keep playing? (Y/N)");
+        String userChoice = getPlayingChoice();
+
+        switch (userChoice) {
+            case "Y":
+                checkDeck();
+                clearHands();
+            case "N":
+                return;
+            default:
+                System.out.println("Invalid option! You're forced to play again >:)");
+
+        }
+
+    }
+
+    public String getPlayingChoice() { return input.nextLine().trim().toUpperCase(); }
+
+    public void checkDeck(){
+        if(deck.getSize() < (players.size() + 1) * 2) {
+            deck.refillDeck(6);
+            deck.shuffle();
+
+        }
+    }
+
+    public void clearHands(){
+        for (Player player : players){
+            player.getHand().clearHand();
+        }
+        dealer.getHand().clearHand();
     }
 }
