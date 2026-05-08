@@ -34,12 +34,11 @@ public class GamblingMenu {
                 Blackjack blackjack = new Blackjack();
                 blackjack.runBlackjack();
             }
-            default -> {
-                System.out.println("""
+            default -> System.out.println("""
                                       !!              Not available yet           !!
                                       !!   You completely broke the program...    !!
                                       !!                  Exiting                 !!""");
-            }
+
         }
     }
 
