@@ -1,5 +1,5 @@
 public class Player {
-    private String name;
+    private final String name;
     private Hand hand;
     private int chips;
 
@@ -22,5 +22,9 @@ public class Player {
 
     public void displayHand(){
         System.out.println(name + " hand: " + hand.getValue() + "\n" + hand.getCardValue());
+    }
+
+    public void receiveCard(Card card){
+        hand.deal(card);
     }
 }

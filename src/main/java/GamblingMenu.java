@@ -2,7 +2,10 @@ import java.util.Scanner;
 
 public class GamblingMenu {
 
-    public void displayHomeMenu(){
+
+    static Scanner input = GamblingApp.input;
+
+    static public void displayHomeMenu(){
         System.out.println("""
                 =======================================================
                                     !! EARLY ACCESS !!
@@ -16,23 +19,32 @@ public class GamblingMenu {
                 =======================================================""");
     }
 
-    public String getHomeMenuChoice(Scanner input){
+    static public String getHomeMenuChoice(Scanner input){
         System.out.println("Enter your choice: ");
         return input.nextLine();
     }
 
-    public void runGame(){
-
-        Scanner input = new Scanner(System.in);
-        String menuChoice;
+    static public void runGame(){
 
         displayHomeMenu();
-        menuChoice = getHomeMenuChoice(input);
+        String menuChoice = getHomeMenuChoice(input);
 
         switch(menuChoice){
-            case "1" -> runBlackjack();
-            default -> System.out.println("!!   Not available yet   !!");
+            case "1" -> {
+                Blackjack blackjack = new Blackjack();
+                blackjack.runBlackjack();
+            }
+            default -> {
+                System.out.println("""
+                                      !!              Not available yet           !!
+                                      !!   You completely broke the program...    !!
+                                      !!                  Exiting                 !!""");
+            }
         }
     }
-    public void runBlackjack(){}
+
+
+
+
 }
+
