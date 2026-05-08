@@ -23,8 +23,6 @@ public class GamblingApp {
             playerHand.deal(deck.deal());
             dealerHand.deal(deck.deal());
 
-            println("Dealer Hand: " + dealerHand.getValue() + "\n" + dealerHand.getCardValue());
-            println("Player Hand: " + playerHand.getValue() + "\n" + playerHand.getCardValue());
 
             // Reset hand
             dealerHand.clearHand();
@@ -39,7 +37,20 @@ public class GamblingApp {
         }
     }
 
+    static public void dealHands(Deck deck){
+
+
+        // Deal 2 card to each player
+        for (int i = 0; i < 2; i++) {
+            for (Player player : players) {
+
+            }
+        }
+    }
+
     static public void println(String message){
         System.out.println(message);
     }
+
+
 }

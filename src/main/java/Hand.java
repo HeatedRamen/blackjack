@@ -28,6 +28,7 @@ public class Hand {
 
         return handValue;
     }
+
     public int getCardValue(){
 
         int handValue = 0;
@@ -35,7 +36,6 @@ public class Hand {
         for (Card card : hand){
             handValue += card.getPointValue();
         }
-
         return handValue;
     }
 
