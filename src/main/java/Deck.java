@@ -46,7 +46,7 @@ public class Deck {
     }
 
     // Deal card from top of deck and remove it
-    public Card deal(){
+    public Card dealCard(){
         Card dealtCard = deck.get(0);
         deck.remove(0);
         return dealtCard;

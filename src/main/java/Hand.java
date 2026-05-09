@@ -23,13 +23,12 @@ public class Hand {
                 case "Clubs" -> handValue += card.getValue() + "♣ ";
                 default -> handValue += card.getValue() + " ";
             }
-
         }
 
         return handValue;
     }
 
-    public int getCardValue(){
+    public int getHandValue(){
 
         int handValue = 0;
 
@@ -38,8 +37,10 @@ public class Hand {
         }
         return handValue;
     }
+    public void clear(){
+        hand.clear();
+    }
 
-    public void clearHand(){ hand.clear();}
 
 
 }

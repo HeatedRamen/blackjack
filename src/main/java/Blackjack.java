@@ -14,18 +14,15 @@ public class Blackjack {
         boolean isRunning = true;
 
         deck.shuffle();
-
         getPlayers();
 
         while (isRunning) {
             dealHands();
-
-            for (Player player : players) {
-                player.displayHand();
-            }
             dealer.displayHand();
+            promptHits();
+
             checkWinner();
-            promptKeepPlaying();
+            isRunning = promptKeepPlaying();
         }
     }
 
@@ -64,51 +61,101 @@ public class Blackjack {
 
         for (int i = 0; i < 2; i++) {
             for (Player player : players) {
-                player.receiveCard(deck.deal());
+                player.receiveCard(deck.dealCard());
             }
-                dealer.receiveCard(deck.deal());
+                dealer.receiveCard(deck.dealCard());
         }
     }
 
+    public void promptHits(){
+        boolean isStand;
+
+        for(Player player : players){
+
+            isStand = false;
+
+            while(!isStand) {
+                player.displayHand();
+                System.out.println("Do you want to hit or stand? (H/S)");
+                String playerAction = getPlayingChoice();
+
+                switch (playerAction) {
+
+                    case "H":
+                        player.receiveCard(deck.dealCard());
+                        break;
+
+                    case "S":
+                        isStand = true;
+                        break;
+
+                    default:
+                        System.out.println("Invalid Option! You're forced to stand >:)");
+                        isStand = true;
+                }
+            }
+
+        }
+    }
     public void checkWinner(){
+
+        boolean isWinner = false;
+
         for (Player player : players){
-            if (player.getHand().getCardValue() > dealer.getHand().getCardValue()){
+            if (player.getHand().getHandValue() > dealer.getHand().getHandValue() &&
+                player.getHand().getHandValue() <= 22){
                 System.out.println("Congrats " + player.getName() + "! You won!");
+                isWinner = true;
             }
+        }
+
+        if (!isWinner){
+            System.out.println("Womp Womp no one beat the dealer...");
         }
     }
 
-    public void promptKeepPlaying(){
+    public boolean promptKeepPlaying(){
+
+        // Prompt the using to keep playing
         System.out.println("Do you want to keep playing? (Y/N)");
         String userChoice = getPlayingChoice();
 
+
         switch (userChoice) {
+
             case "Y":
                 checkDeck();
                 clearHands();
+                return true;
+
             case "N":
-                return;
+                return false;
+
             default:
                 System.out.println("Invalid option! You're forced to play again >:)");
-
+                return true;
         }
-
     }
 
     public String getPlayingChoice() { return input.nextLine().trim().toUpperCase(); }
 
     public void checkDeck(){
-        if(deck.getSize() < (players.size() + 1) * 2) {
+
+        // Seems like a random number, but it's at the 3 deck mark so its probably time for a new shoe
+        if(deck.getSize() < 156) {
+
+            // Adds all the cards back then shuffles
             deck.refillDeck(6);
             deck.shuffle();
-
         }
     }
 
     public void clearHands(){
+
         for (Player player : players){
-            player.getHand().clearHand();
+            player.clearHand();
         }
-        dealer.getHand().clearHand();
+        dealer.clearHand();
     }
+
 }
