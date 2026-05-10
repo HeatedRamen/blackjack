@@ -23,7 +23,7 @@ public class Player {
     public void setChips(int chips) { this.chips = chips; }
 
     public void displayHand(){
-        System.out.println(name + " hand: " + hand.getValue());
+        System.out.println(name + " hand: " + hand.getValue() + "\nValue: " + getHandValue());
     }
 
     public void receiveCard(Card card){
@@ -31,5 +31,8 @@ public class Player {
     }
     public void clearHand(){
         hand.clear();
+    }
+    public int getHandValue(){
+        return hand.getCardValue();
     }
 }

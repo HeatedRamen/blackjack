@@ -102,15 +102,15 @@ public class Blackjack {
         boolean isWinner = false;
 
         for (Player player : players){
-            if (player.getHand().getHandValue() > dealer.getHand().getHandValue() &&
-                player.getHand().getHandValue() <= 22){
+            if (player.getHandValue() > dealer.getHandValue() &&
+                player.getHandValue() <= 22){
                 System.out.println("Congrats " + player.getName() + "! You won!");
                 isWinner = true;
             }
         }
 
         if (!isWinner){
-            System.out.println("Womp Womp no one beat the dealer...");
+            System.out.println("Womp Womp... No one beat the dealer...");
         }
     }
 
@@ -158,4 +158,16 @@ public class Blackjack {
         dealer.clearHand();
     }
 
+    public void playDealer(){
+
+        boolean isDealerTurn = true;
+        while(isDealerTurn)
+        if (dealer.getHandValue() < 17){
+            dealer.receiveCard(deck.dealCard());
+        }
+    }
+
+    public void checkBust(){
+
+    }
 }

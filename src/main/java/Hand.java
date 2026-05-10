@@ -28,7 +28,7 @@ public class Hand {
         return handValue;
     }
 
-    public int getHandValue(){
+    public int getCardValue(){
 
         int handValue = 0;
 
