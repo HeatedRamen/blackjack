@@ -7,26 +7,8 @@ public class Hand {
         hand = new ArrayList<>();
     }
 
-    public void deal(Card card){
-        hand.add(card);
-    }
-
-    public String getValue(){
-
-        String handValue = "";
-
-        for (Card card : hand){
-            switch (card.getSuit()){
-                case "Hearts" -> handValue += card.getValue() + "♥ ";
-                case "Diamond" -> handValue += card.getValue() + "♦ ";
-                case "Spades" -> handValue += card.getValue() + "♠ ";
-                case "Clubs" -> handValue += card.getValue() + "♣ ";
-                default -> handValue += card.getValue() + " ";
-            }
-        }
-
-        return handValue;
-    }
+    public void addCard(Card card){ hand.add(card); }
+    public void clear(){ hand.clear(); }
 
     public int getCardValue(){
 
@@ -37,10 +19,19 @@ public class Hand {
         }
         return handValue;
     }
-    public void clear(){
-        hand.clear();
+
+    public String showOneCard(){ return hand.get(0).toString(); }
+
+    @Override
+    public String toString() {
+
+        String handValue = "";
+
+        for (Card card : hand){
+            handValue += card + " ";
+            }
+
+        return handValue;
+        }
     }
 
-
-
-}

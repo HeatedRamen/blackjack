@@ -20,4 +20,15 @@ public class Card {
         }else { return Integer.parseInt(value); }
     }
 
+    @Override
+    public String toString() {
+
+        switch (suit) {
+            case "Hearts" -> { return value + "♥"; }
+            case "Diamond" -> { return value + "♦"; }
+            case "Spades" -> { return value + "♠"; }
+            case "Clubs" -> { return value + "♣"; }
+            default -> { return value; }
+        }
+    }
 }
