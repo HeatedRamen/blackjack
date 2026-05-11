@@ -9,13 +9,22 @@ public class Hand {
 
     public void addCard(Card card){ hand.add(card); }
     public void clear(){ hand.clear(); }
-
+    public int getSize(){ return hand.size();}
     public int getCardValue(){
 
         int handValue = 0;
+        int numAces = 0;
 
         for (Card card : hand){
+            if(card.getValue().equalsIgnoreCase("A")){
+                numAces++;
+            }
             handValue += card.getPointValue();
+        }
+
+        while (handValue > 21 && numAces > 0){
+            handValue -= 10;
+            numAces--;
         }
         return handValue;
     }

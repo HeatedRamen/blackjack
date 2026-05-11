@@ -25,15 +25,17 @@ public class Blackjack {
         getPlayers();
 
         while (isRunning) {
-            dealHands();
-            dealer.displayCard();
-            promptHits();
 
-            dealer.displayHand();
-            playDealer();
-
+            startRound();
+            playPlayerTurn();
+            playDealerTurn();
             checkWinner();
+
             isRunning = promptKeepPlaying();
+
+            if(isRunning){
+                resetRound();
+            }
         }
     }
 
@@ -44,7 +46,7 @@ public class Blackjack {
         while (keepPrompting) {
 
             System.out.println("Enter all player names separated by \",\"");
-            String playerNames = getPlayerChoice();
+            String playerNames = input.nextLine().trim();
             addPlayers(playerNames);
 
             validInput = false;
@@ -76,6 +78,15 @@ public class Blackjack {
         }
     }
 
+    public void startRound(){
+        promptBets();
+        dealHands();
+        dealer.displayCard();
+    }
+
+    public void promptBets(){
+
+    }
     public void dealHands() {
 
         for (int i = 0; i < 2; i++) {
@@ -84,6 +95,10 @@ public class Blackjack {
             }
             dealer.receiveCard(deck.dealCard());
         }
+    }
+
+    public void playPlayerTurn(){
+        promptHits();
     }
 
     public void promptHits() {
@@ -122,26 +137,16 @@ public class Blackjack {
         }
     }
 
-    public void checkWinner() {
+    public void playDealerTurn() {
+        dealer.displayHand();
 
-        boolean isWinner = false;
-
-        for (Player player : players) {
-            if (isPlayerBust(player)) {
-            } else if (isDealerBust()) {
-                System.out.println("Congrats " + player.getName() + "! You won!");
-                isWinner = true;
-            } else if (isPush(player)) {
-                System.out.println("Unlucky " + player.getName() + "... You matched the dealer.");
-                isWinner = true;
-            } else if (player.getHandValue() > dealer.getHandValue()) {
-                System.out.println("Congrats " + player.getName() + "! You won!");
-                isWinner = true;
-            }
+        while (dealer.getHandValue() < 17) {
+            dealer.receiveCard(deck.dealCard());
+            dealer.displayHand();
         }
 
-        if (!isWinner) {
-            System.out.println("Womp Womp... No one beat the dealer...");
+        if (dealer.getHandValue() > 21) {
+            System.out.println("Dealer busted!");
         }
     }
 
@@ -154,8 +159,6 @@ public class Blackjack {
         switch (userChoice) {
 
             case "Y":
-                checkDeck();
-                clearHands();
                 return true;
 
             case "N":
@@ -165,6 +168,11 @@ public class Blackjack {
                 System.out.println("Invalid option! You're forced to play again >:)");
                 return true;
         }
+    }
+
+    public void resetRound(){
+        checkDeck();
+        clearHands();
     }
 
     public void checkDeck() {
@@ -185,15 +193,28 @@ public class Blackjack {
         dealer.clearHand();
     }
 
-    public void playDealer() {
+    public void checkWinner() {
 
-        while (dealer.getHandValue() < 17) {
-            dealer.receiveCard(deck.dealCard());
-            dealer.displayHand();
+        boolean isWinner = false;
+
+        for (Player player : players) {
+
+            if (isPlayerBust(player)) {
+                continue;
+            } else if (isDealerBust()) {
+                System.out.println("Congrats " + player.getName() + "! You won!");
+                isWinner = true;
+            } else if (isPush(player)) {
+                System.out.println("Unlucky " + player.getName() + "... You matched the dealer.");
+                isWinner = true;
+            } else if (player.getHandValue() > dealer.getHandValue()) {
+                System.out.println("Congrats " + player.getName() + "! You won!");
+                isWinner = true;
+            }
         }
 
-        if (dealer.getHandValue() > 21) {
-            System.out.println("Dealer busted!");
+        if (!isWinner) {
+            System.out.println("Womp Womp... No one beat the dealer...");
         }
     }
 
